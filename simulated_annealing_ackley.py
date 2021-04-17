@@ -2,7 +2,7 @@
 from math import exp
 from random import randint, random
 
-from numpy.matlib import randn
+from numpy.random.mtrand import randn
 
 from ackley import ackley
 
