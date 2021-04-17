@@ -13,7 +13,7 @@ def random_from_range(digits):
 
 
 def create_next(current, delta_step):
-    next1 = {'input': current['input']}
+    next1 = {'input': list.copy(current['input'])}
 
     next1['input'][0] = max(-32, min(32, next1['input'][0] + randint(-1, 1) * delta_step))
     next1['input'][1] = max(-32, min(32, next1['input'][1] + randint(-1, 1) * delta_step))
@@ -40,8 +40,8 @@ def search_ackley(max_iterations, max_temperature, temp_change, print_progress=F
         if should_accept(candidate, current, temperature):
             current = candidate
 
-        if candidate['value'] < best['value']:
-            best = candidate
+        if current['value'] < best['value']:
+            best = current
 
         if print_progress and i % 10 == 0:
             print(f"iteration {i}, temperature={temperature}, best={best['value']}")
