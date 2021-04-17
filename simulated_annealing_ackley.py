@@ -2,6 +2,8 @@
 from math import exp
 from random import randint, random
 
+from numpy.matlib import randn
+
 from ackley import ackley
 
 
@@ -15,8 +17,8 @@ def random_from_range(digits):
 def create_next(current, delta_step):
     next1 = {'input': list.copy(current['input'])}
 
-    next1['input'][0] = max(-32, min(32, next1['input'][0] + randint(-1, 1) * delta_step))
-    next1['input'][1] = max(-32, min(32, next1['input'][1] + randint(-1, 1) * delta_step))
+    next1['input'][0] = max(-32, min(32, next1['input'][0] + float(randn(1)) * delta_step))
+    next1['input'][1] = max(-32, min(32, next1['input'][1] + float(randn(1)) * delta_step))
 
     next1['value'] = ackley(next1['input'])
     return next1
@@ -37,11 +39,11 @@ def search_ackley(max_iterations, max_temperature, temp_change, print_progress=F
         candidate = create_next(current, 1)
         temperature = temperature * temp_change
 
+        if candidate['value'] < best['value']:
+            best = candidate
+
         if should_accept(candidate, current, temperature):
             current = candidate
-
-        if current['value'] < best['value']:
-            best = current
 
         if print_progress and i % 10 == 0:
             print(f"iteration {i}, temperature={temperature}, best={best['value']}")
