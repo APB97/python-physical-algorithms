@@ -22,7 +22,7 @@ def benchmark_simulated_annealing_ackley(repeat_times=20):
         values.append(result['value'])
 
     mean = sum(values) / repeat_times
-    stddev = sqrt(sum([(v - mean) ** 2] for v in values) / (repeat_times - 1))
+    stddev = sqrt(sum([(v - mean) ** 2 for v in values]) / (repeat_times - 1))
 
     print("Metoda AI: Symulowane wyżarzanie")
     print("Funkcja benchmark: Ackley")
@@ -51,7 +51,7 @@ def benchmark_simulated_annealing_bukin(repeat_times=20):
         values.append(result['value'])
 
     mean = sum(values) / repeat_times
-    stddev = sqrt(sum([(v - mean) ** 2] for v in values) / (repeat_times - 1))
+    stddev = sqrt(sum([(v - mean) ** 2 for v in values]) / (repeat_times - 1))
 
     print("Metoda AI: Symulowane wyżarzanie")
     print("Funkcja benchmark: Bukin no. 6")
@@ -80,7 +80,7 @@ def benchmark_simulated_annealing_rastrigin(repeat_times=20):
         values.append(result['value'])
 
     mean = sum(values) / repeat_times
-    stddev = sqrt(sum([(v - mean) ** 2] for v in values) / (repeat_times - 1))
+    stddev = sqrt(sum([(v - mean) ** 2 for v in values]) / (repeat_times - 1))
 
     print("Metoda AI: Symulowane wyżarzanie")
     print("Funkcja benchmark: Rastrigin")
