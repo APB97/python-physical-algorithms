@@ -1,6 +1,6 @@
 # Author of the implementation: Adrian Bieliński
 from math import exp
-from random import randint, random
+from random import random
 
 from numpy.random.mtrand import randn
 
@@ -14,11 +14,11 @@ def random_from_range(digits, start, end):
     return value_from_range
 
 
-def create_next(current, delta_step):
+def create_next(current, delta_step, lower_limits, upper_limits):
     next1 = {'input': list.copy(current['input'])}
 
-    next1['input'][0] = max(-5.12, min(5.12, next1['input'][0] + float(randn(1)) * delta_step))
-    next1['input'][1] = max(-5.12, min(5.12, next1['input'][1] + float(randn(1)) * delta_step))
+    next1['input'][0] = max(lower_limits[0], min(upper_limits[0], next1['input'][0] + float(randn(1)) * delta_step))
+    next1['input'][1] = max(lower_limits[1], min(upper_limits[1], next1['input'][1] + float(randn(1)) * delta_step))
 
     next1['value'] = rastrigin(next1['input'])
     return next1
@@ -37,7 +37,7 @@ def search_rastrigin(max_iterations, max_temperature, temp_change, print_progres
     current['value'] = rastrigin(current['input'])
     temperature, best = max_temperature, current
     for i in range(1, max_iterations + 1):
-        candidate = create_next(current, 1)
+        candidate = create_next(current, 1, lower_limits=[-5.12, -5.12], upper_limits=[5.12, 5.12])
         temperature = temperature * temp_change
 
         if candidate['value'] < best['value']:

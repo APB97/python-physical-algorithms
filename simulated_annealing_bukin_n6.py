@@ -1,6 +1,6 @@
 # Author of the implementation: Adrian Bieliński
 from math import exp
-from random import randint, random
+from random import random
 
 from numpy.random.mtrand import randn
 
@@ -14,11 +14,11 @@ def random_from_range(digits, start, end):
     return value_from_range
 
 
-def create_next(current, delta_step):
+def create_next(current, delta_step, lower_limits, upper_limits):
     next1 = {'input': list.copy(current['input'])}
 
-    next1['input'][0] = max(-15, min(-5, next1['input'][0] + float(randn(1)) * delta_step))
-    next1['input'][1] = max(-3, min(3, next1['input'][1] + float(randn(1)) * delta_step))
+    next1['input'][0] = max(lower_limits[0], min(upper_limits[0], next1['input'][0] + float(randn(1)) * delta_step))
+    next1['input'][1] = max(lower_limits[1], min(upper_limits[1], next1['input'][1] + float(randn(1)) * delta_step))
 
     next1['value'] = bukin_n6(next1['input'])
     return next1
@@ -36,7 +36,7 @@ def search_bukin(max_iterations, max_temperature, temp_change, print_progress=Fa
     current['value'] = bukin_n6(current['input'])
     temperature, best = max_temperature, current
     for i in range(1, max_iterations + 1):
-        candidate = create_next(current, 1)
+        candidate = create_next(current, 1, lower_limits=[-15, -3], upper_limits=[-5, 3])
         temperature = temperature * temp_change
 
         if candidate['value'] < best['value']:

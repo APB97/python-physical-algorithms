@@ -1,24 +1,24 @@
 # Author of the implementation: Adrian Bieliński
 from math import exp
-from random import randint, random
+from random import random
 
 from numpy.random.mtrand import randn
 
 from ackley import ackley
 
 
-def random_from_range(digits):
+def random_from_range(digits, start, end):
     uniform_random = random()
-    value_from_range = uniform_random * 64 - 32
+    value_from_range = uniform_random * (end - start) + start
     value_from_range = round(value_from_range, digits)
     return value_from_range
 
 
-def create_next(current, delta_step):
+def create_next(current, delta_step, lower_limits, upper_limits):
     next1 = {'input': list.copy(current['input'])}
 
-    next1['input'][0] = max(-32, min(32, next1['input'][0] + float(randn(1)) * delta_step))
-    next1['input'][1] = max(-32, min(32, next1['input'][1] + float(randn(1)) * delta_step))
+    next1['input'][0] = max(lower_limits[0], min(upper_limits[0], next1['input'][0] + float(randn(1)) * delta_step))
+    next1['input'][1] = max(lower_limits[1], min(upper_limits[1], next1['input'][1] + float(randn(1)) * delta_step))
 
     next1['value'] = ackley(next1['input'])
     return next1
@@ -32,11 +32,12 @@ def should_accept(candidate: dict, current: dict, temp):
 
 
 def search_ackley(max_iterations, max_temperature, temp_change, print_progress=False):
-    current = {'input': [random_from_range(digits=2), random_from_range(digits=2)]}
+    current = {'input': [random_from_range(digits=2, start=-32, end=32),
+                         random_from_range(digits=2, start=-32, end=32)]}
     current['value'] = ackley(current['input'])
     temperature, best = max_temperature, current
     for i in range(1, max_iterations + 1):
-        candidate = create_next(current, 1)
+        candidate = create_next(current, 1, lower_limits=[-32, -32], upper_limits=[32, 32])
         temperature = temperature * temp_change
 
         if candidate['value'] < best['value']:
