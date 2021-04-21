@@ -1,7 +1,7 @@
 # Author of the implementation: Adrian Bieliński
 from random import random
 
-from ackley import ackley
+from rastrigin import rastrigin
 
 
 def calculate_component_probabilities(ordered_components, tau):
@@ -28,13 +28,13 @@ def random_from_range(digits, start, end):
     return value_from_range
 
 
-def search_eo_ackley(max_iterations, tau, print_progress=False):
-    lower_limits = [-32, -32]
-    upper_limits = [32, 32]
+def search_eo_rastrigin(max_iterations, tau, print_progress=False):
+    lower_limits = [-5.12, -5.12]
+    upper_limits = [5.12, 5.12]
 
     current = {'input': [random_from_range(digits=2, start=lower_limits[0], end=upper_limits[0]),
                          random_from_range(digits=2, start=lower_limits[1], end=upper_limits[1])]}
-    current['value'] = ackley(current['input'])
+    current['value'] = rastrigin(current['input'])
     best = current
 
     for i in range(1, max_iterations + 1):
@@ -48,7 +48,7 @@ def search_eo_ackley(max_iterations, tau, print_progress=False):
         candidate['input'][weak_component] = random_from_range(digits=2, start=lower_limits[weak_component],
                                                                end=upper_limits[weak_component])
 
-        candidate['value'] = ackley(candidate['input'])
+        candidate['value'] = rastrigin(candidate['input'])
         current = candidate
 
         if candidate['value'] < best['value']:
@@ -65,6 +65,6 @@ if __name__ == "__main__":
     tau_parameter = 1.8  # 4  # 10.75  # 1.8
 
     # algorithm execution
-    best_result = search_eo_ackley(maximum_iterations, tau_parameter, print_progress=True)
+    best_result = search_eo_rastrigin(maximum_iterations, tau_parameter, print_progress=True)
     print("Done.")
     print(f"Best solution: value={best_result['value']}, input={best_result['input']}")
