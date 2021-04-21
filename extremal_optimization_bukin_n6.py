@@ -62,7 +62,7 @@ def search_eo_bukin_n6(max_iterations, tau, print_progress=False):
 if __name__ == "__main__":
     # algorithm configuration
     maximum_iterations = 250
-    tau_parameter = 1.8  # 4  # 10.75  # 1.8
+    tau_parameter = 1.8
 
     # algorithm execution
     best_result = search_eo_bukin_n6(maximum_iterations, tau_parameter, print_progress=True)
