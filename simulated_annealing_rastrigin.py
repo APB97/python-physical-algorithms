@@ -61,4 +61,4 @@ if __name__ == "__main__":
     # algorithm execution
     best_result = search_rastrigin(maximum_iterations, maximum_temperature, temperature_change, print_progress=True)
     print("Done.")
-    print(f"Best solution: cost={best_result['value']}, input={best_result['input']}")
+    print(f"Best solution: value={best_result['value']}, input={best_result['input']}")
