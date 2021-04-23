@@ -17,8 +17,8 @@ def random_vector(search_space):
 
 
 def create_random_harmony(search_space):
-    harmony = {'vector': random_vector(search_space)}
-    harmony['fitness'] = objective_function(harmony['vector'])
+    harmony = {'input': random_vector(search_space)}
+    harmony['value'] = objective_function(harmony['input'])
     return harmony
 
 
@@ -26,7 +26,7 @@ def init_harmony_memory(search_space, mem_size, factor=3):
     memory = [create_random_harmony(search_space) for _ in range(0, mem_size*factor)]
 
     def sorting_key(mem_cell):
-        return mem_cell['fitness']
+        return mem_cell['value']
 
     memory.sort(key=sorting_key)
     return memory[0:mem_size]
@@ -36,7 +36,7 @@ def create_harmony(search_space, memory, consider_rate, adjust_rate, harm_range)
     vector = [i for i in range(0, len(search_space))]
     for i in vector:
         if random() < consider_rate:
-            value = memory[randint(0, len(memory) - 1)]['vector'][i]
+            value = memory[randint(0, len(memory) - 1)]['input'][i]
             if random() < adjust_rate:
                 value += harm_range * rand_in_bounds(-1.0, 1.0)
                 if value < search_space[i][0]:
@@ -46,7 +46,7 @@ def create_harmony(search_space, memory, consider_rate, adjust_rate, harm_range)
             vector[i] = value
         else:
             vector[i] = rand_in_bounds(search_space[i][0], search_space[i][1])
-    return {'vector': vector}
+    return {'input': vector}
 
 
 def search_bukin_n6(bounds, max_iter, mem_size, consider_rate, adjust_rate, harm_range, print_progress=False):
@@ -54,18 +54,18 @@ def search_bukin_n6(bounds, max_iter, mem_size, consider_rate, adjust_rate, harm
     best = memory[0]
 
     def sorting_key(harmony):
-        return harmony['fitness']
+        return harmony['value']
 
     for i in range(max_iter):
         harm = create_harmony(bounds, memory, consider_rate, adjust_rate, harm_range)
-        harm['fitness'] = objective_function(harm['vector'])
-        if harm['fitness'] < best['fitness']:
+        harm['value'] = objective_function(harm['input'])
+        if harm['value'] < best['value']:
             best = harm
         memory.append(harm)
         memory.sort(key=sorting_key)
         memory.remove(memory[len(memory) - 1])  # remove worst value
         if print_progress:
-            print(f"iteration={i}, fitness={best['fitness']}")
+            print(f"iteration={i}, fitness={best['value']}")
 
     return best
 
@@ -81,4 +81,4 @@ if __name__ == "__main__":
     iters = 500
     # execution
     best_found = search_bukin_n6(problem_bounds, iters, mem, consider, adjust, harmony_range, print_progress=True)
-    print(f"Done. Solution f={best_found['fitness']}, input={best_found['vector']}")
+    print(f"Done. Solution f={best_found['value']}, input={best_found['input']}")
