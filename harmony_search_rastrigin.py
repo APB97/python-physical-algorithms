@@ -1,8 +1,10 @@
 from random import random, randint
 
+from rastrigin import rastrigin
+
 
 def objective_function(vector):
-    value = sum([x ** 2 for x in vector])
+    value = rastrigin(vector)
     return value
 
 
@@ -47,7 +49,7 @@ def create_harmony(search_space, memory, consider_rate, adjust_rate, harm_range)
     return {'vector': vector}
 
 
-def search(bounds, max_iter, mem_size, consider_rate, adjust_rate, harm_range, print_progress=False):
+def search_rastrigin(bounds, max_iter, mem_size, consider_rate, adjust_rate, harm_range, print_progress=False):
     memory = init_harmony_memory(bounds, mem_size)
     best = memory[0]
 
@@ -69,8 +71,8 @@ def search(bounds, max_iter, mem_size, consider_rate, adjust_rate, harm_range, p
 
 
 if __name__ == "__main__":
-    problem_size = 3
-    problem_bounds = [[-5, 5] for _ in range(problem_size)]
+    problem_size = 2
+    problem_bounds = [[-5.12, 5.12] for _ in range(problem_size)]
     # algorithm configuration
     mem = 20
     consider = 0.95
@@ -78,5 +80,5 @@ if __name__ == "__main__":
     harmony_range = 0.05
     iters = 500
     # execution
-    best_found = search(problem_bounds, iters, mem, consider, adjust, harmony_range, print_progress=True)
+    best_found = search_rastrigin(problem_bounds, iters, mem, consider, adjust, harmony_range, print_progress=True)
     print(f"Done. Solution f={best_found['fitness']}, input={best_found['vector']}")
