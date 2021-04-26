@@ -18,21 +18,21 @@ def random_vector(search_space):
 
 
 def mutate_with_inf(candidate, beliefs, search_space):
-    vector = [0 for _ in range(len(candidate['vector']))]
-    for i in range(len(candidate['vector'])):
+    vector = [0 for _ in range(len(candidate['input']))]
+    for i in range(len(candidate['input'])):
         vector[i] = rand_in_bounds(beliefs['normative'][i][0], beliefs['normative'][i][1])
         if vector[i] < search_space[i][0]:
             vector[i] = search_space[i][0]
         if vector[i] > search_space[i][1]:
             vector[i] = search_space[i][1]
-    return {'vector': vector}
+    return {'input': vector}
 
 
 def binary_tournament(pop):
     i, j = randint(0, len(pop) - 1), randint(0, len(pop) - 1)
     while j == i:
         j = randint(0, len(pop) - 1)
-    if pop[i]['fitness'] < pop[j]['fitness']:
+    if pop[i]['value'] < pop[j]['value']:
         return pop[i]
     else:
         return pop[j]
@@ -45,32 +45,32 @@ def initialize_beliefspace(search_space):
 
 def update_beliefspace_situational(belief_space, best):
     current_best = belief_space['situational']
-    if current_best is None or best['fitness'] < current_best['fitness']:
+    if current_best is None or best['value'] < current_best['value']:
         belief_space['situational'] = best
 
 
 def min_component(accepted, i):
     min_comp = inf
     for single in accepted:
-        if single['vector'][i] < min_comp:
-            min_comp = single['vector'][i]
+        if single['input'][i] < min_comp:
+            min_comp = single['input'][i]
     return min_comp
 
 
 def update_beliefspace_normative(beliefspace, accepted):
     for i in range(len(beliefspace['normative'])):
-        beliefspace['normative'][i][0] = min([a['vector'][i] for a in accepted])
-        beliefspace['normative'][i][1] = max([a['vector'][i] for a in accepted])
+        beliefspace['normative'][i][0] = min([a['input'][i] for a in accepted])
+        beliefspace['normative'][i][1] = max([a['input'][i] for a in accepted])
 
 
 def search(max_gens, search_space, pop_size, num_accepted, print_progress=False):
-    pop = [{'vector': random_vector(search_space)} for _ in range(pop_size)]
+    pop = [{'input': random_vector(search_space)} for _ in range(pop_size)]
     belief_space = initialize_beliefspace(search_space)
     for p in pop:
-        p['fitness'] = objective_function(p['vector'])
+        p['value'] = objective_function(p['input'])
 
     def key(member):
-        return member['fitness']
+        return member['value']
 
     pop.sort(key=key)
     best = pop[0]
@@ -78,7 +78,7 @@ def search(max_gens, search_space, pop_size, num_accepted, print_progress=False)
     for i in range(1, max_gens + 1):
         children = [mutate_with_inf(pop[j], belief_space, search_space) for j in range(pop_size)]
         for c in children:
-            c['fitness'] = objective_function(c['vector'])
+            c['value'] = objective_function(c['input'])
         children.sort(key=key)
         best = children[0]
         update_beliefspace_situational(belief_space, best)
@@ -87,10 +87,9 @@ def search(max_gens, search_space, pop_size, num_accepted, print_progress=False)
         accepted = pop[0:num_accepted]
         update_beliefspace_normative(belief_space, accepted)
         if print_progress:
-            # noinspection PyTypeChecker
-            print(f"generation={i}, f={belief_space['situational']['fitness']}")
+            print(f"generation={i}, f={belief_space['situational']['value']}")
 
-    return best
+    return belief_space['situational']
 
 
 if __name__ == "__main__":
@@ -102,4 +101,4 @@ if __name__ == "__main__":
     number_accepted = population_size // 5
     # execution
     best_found = search(generations, problem_bounds, population_size, number_accepted, print_progress=True)
-    print(f"Done. Solution f={best_found['fitness']}, input={best_found['vector']}")
+    print(f"Done. Solution f={best_found['value']}, input={best_found['input']}")

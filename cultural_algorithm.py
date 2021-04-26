@@ -84,10 +84,9 @@ def search(max_gens, search_space, pop_size, num_accepted):
         pop.sort(key=key)
         accepted = pop[0:num_accepted]
         update_beliefspace_normative(belief_space, accepted)
-        # noinspection PyTypeChecker
         print(f"generation={i}, f={belief_space['situational']['fitness']}")
 
-    return best
+    return belief_space['situational']
 
 
 if __name__ == "__main__":
