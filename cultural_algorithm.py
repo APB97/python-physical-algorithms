@@ -47,14 +47,6 @@ def update_beliefspace_situational(belief_space, best):
         belief_space['situational'] = best
 
 
-def min_component(accepted, i):
-    min_comp = inf
-    for single in accepted:
-        if single['vector'][i] < min_comp:
-            min_comp = single['vector'][i]
-    return min_comp
-
-
 def update_beliefspace_normative(beliefspace, accepted):
     for i in range(len(beliefspace['normative'])):
         beliefspace['normative'][i][0] = min([a['vector'][i] for a in accepted])
