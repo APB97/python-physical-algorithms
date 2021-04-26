@@ -1,4 +1,3 @@
-from math import inf
 from random import random, randint
 
 from bukin_n6 import bukin_n6

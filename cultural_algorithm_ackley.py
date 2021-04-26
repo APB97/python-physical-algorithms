@@ -1,4 +1,3 @@
-from math import inf
 from random import random, randint
 
 from ackley import ackley
