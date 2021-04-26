@@ -63,7 +63,7 @@ def update_beliefspace_normative(beliefspace, accepted):
         beliefspace['normative'][i][1] = max([a['input'][i] for a in accepted])
 
 
-def search(max_gens, search_space, pop_size, num_accepted, print_progress=False):
+def search_rastrigin(max_gens, search_space, pop_size, num_accepted, print_progress=False):
     pop = [{'input': random_vector(search_space)} for _ in range(pop_size)]
     belief_space = initialize_beliefspace(search_space)
     for p in pop:
@@ -100,5 +100,5 @@ if __name__ == "__main__":
     population_size = 100
     number_accepted = population_size // 5
     # execution
-    best_found = search(generations, problem_bounds, population_size, number_accepted, print_progress=True)
+    best_found = search_rastrigin(generations, problem_bounds, population_size, number_accepted, print_progress=True)
     print(f"Done. Solution f={best_found['value']}, input={best_found['input']}")
