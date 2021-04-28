@@ -22,7 +22,6 @@ def benchmark_memetic_algorithm(function, problem_bounds, repeat_times=20):
     for i in range(0, repeat_times):
         result = search(function, generations, problem_bounds, population_size, prob_cross, prob_mut,
                         max_local_generations, prob_local)
-#        result = search_ackley(generations, problem_bounds, population_size, number_accepted)
         if result['value'] < best['value']:
             best = result
         results.append(result)
