@@ -1,14 +1,12 @@
 from math import inf, sqrt
 
-from cultural_algorithm_ackley import search_ackley
-from cultural_algorithm_bukin_n6 import search_bukin_n6
-from cultural_algorithm_rastrigin import search_rastrigin
+from ackley import ackley
+from bukin_n6 import bukin_n6
+from cultural_algorithm_any_func import search
+from rastrigin import rastrigin
 
 
-def benchmark_cultural_algorithm_ackley(repeat_times=20):
-    problem_size = 2
-    problem_bounds = [[-32, 32] for _ in range(problem_size)]
-
+def benchmark_cultural_algorithm(function, problem_bounds, repeat_times=20):
     # algorithm configuration
     generations = 200
     population_size = 100
@@ -19,7 +17,7 @@ def benchmark_cultural_algorithm_ackley(repeat_times=20):
     best = {'input': None, 'value': inf}
 
     for i in range(0, repeat_times):
-        result = search_ackley(generations, problem_bounds, population_size, number_accepted)
+        result = search(function, generations, problem_bounds, population_size, number_accepted)
         if result['value'] < best['value']:
             best = result
         results.append(result)
@@ -29,72 +27,7 @@ def benchmark_cultural_algorithm_ackley(repeat_times=20):
     stddev = sqrt(sum([(v - mean) ** 2 for v in values]) / (repeat_times - 1))
 
     print("Metoda AI: Algorytm kulturowy")
-    print("Funkcja benchmark: Ackley")
-    print(f"Optimum: {best}")
-    print(f"Wyniki ({repeat_times} powtórzeń): ")
-    for result in results:
-        print(result)
-    print(f"Średnia: {mean}")
-    print(f"Odchylenie standardowe: {stddev}")
-
-
-def benchmark_cultural_algorithm_bukin(repeat_times=20):
-    problem_bounds = [[-15, -5], [-3, 3]]
-
-    # algorithm configuration
-    generations = 200
-    population_size = 100
-    number_accepted = population_size // 5
-
-    results = []
-    values = []
-    best = {'input': None, 'value': inf}
-
-    for i in range(0, repeat_times):
-        result = search_bukin_n6(generations, problem_bounds, population_size, number_accepted)
-        if result['value'] < best['value']:
-            best = result
-        results.append(result)
-        values.append(result['value'])
-
-    mean = sum(values) / repeat_times
-    stddev = sqrt(sum([(v - mean) ** 2 for v in values]) / (repeat_times - 1))
-
-    print("Metoda AI: Algorytm kulturowy")
-    print("Funkcja benchmark: Bukin no. 6")
-    print(f"Optimum: {best}")
-    print(f"Wyniki ({repeat_times} powtórzeń): ")
-    for result in results:
-        print(result)
-    print(f"Średnia: {mean}")
-    print(f"Odchylenie standardowe: {stddev}")
-
-
-def benchmark_cultural_algorithm_rastrigin(repeat_times=20):
-    problem_size = 2
-    problem_bounds = [[-5.12, 5.12] for _ in range(problem_size)]
-
-    # algorithm configuration
-    generations = 200
-    population_size = 100
-    number_accepted = population_size // 5
-
-    results = []
-    values = []
-    best = {'input': None, 'value': inf}
-
-    for i in range(0, repeat_times):
-        result = search_rastrigin(generations, problem_bounds, population_size, number_accepted)
-        if result['value'] < best['value']:
-            best = result
-        results.append(result)
-        values.append(result['value'])
-
-    mean = sum(values) / repeat_times
-    stddev = sqrt(sum([(v - mean) ** 2 for v in values]) / (repeat_times - 1))
-
-    print("Metoda AI: Algorytm kulturowy")
-    print("Funkcja benchmark: Rastrigin")
+    print(f"Funkcja benchmark: {function.__name__}")
     print(f"Optimum: {best}")
     print(f"Wyniki ({repeat_times} powtórzeń): ")
     for result in results:
@@ -104,8 +37,8 @@ def benchmark_cultural_algorithm_rastrigin(repeat_times=20):
 
 
 if __name__ == "__main__":
-    benchmark_cultural_algorithm_ackley()
+    benchmark_cultural_algorithm(ackley, [[-32, 32], [-32, 32]])
     print()
-    benchmark_cultural_algorithm_bukin()
+    benchmark_cultural_algorithm(bukin_n6, [[-15, -5], [-3, 3]])
     print()
-    benchmark_cultural_algorithm_rastrigin()
+    benchmark_cultural_algorithm(rastrigin, [[-5.12, 5.12], [-5.12, 5.12]])
