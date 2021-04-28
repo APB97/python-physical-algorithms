@@ -1,11 +1,6 @@
 from random import random, randint
 
 
-def objective_function(vector):
-    value = sum([x ** 2 for x in vector])
-    return value
-
-
 def random_bitstring(num_bits):
     return [randint(0, 1) for _ in range(num_bits)]
 
@@ -121,20 +116,3 @@ def search(objective_func, max_gens, search_space, pop_size, p_cross, p_mut, max
         if print_progress:
             print(f"gen={i}, f={best['value']}, b={best['bits']}")
     return best
-
-
-if __name__ == "__main__":
-    problem_size = 3
-    problem_bounds = [[-5, 5] for _ in range(problem_size)]
-    # algorithm configuration
-    generations = 100
-    population_size = 100
-    prob_cross = 0.98
-    prob_mut = 1.0/(problem_size * 16)
-    max_local_generations = 20
-    prob_local = 0.5
-    # execution
-    best_found = search(objective_function, generations, problem_bounds, population_size,
-                        prob_cross, prob_mut, max_local_generations, prob_local, True)
-    bits = ''.join([str(b) for b in best_found['bits']])
-    print(f"Done. Solution f={best_found['value']}, b={bits}, input={best_found['input']}")
