@@ -9,7 +9,3 @@ def bukin_n6(xx):
     term2 = 0.01 * abs(x1 + 10)
     value = term1 + term2
     return value
-
-
-if __name__ == "__main__":
-    print(bukin_n6([-12, -2]))
