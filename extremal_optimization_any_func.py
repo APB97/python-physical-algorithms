@@ -1,25 +1,6 @@
 # Author of the implementation: Adrian Bieliński
 from random import random
 
-from ackley import ackley
-
-
-def calculate_component_probabilities(ordered_components, tau):
-    sum_of = 0.0
-    for i in range(0, len(ordered_components)):
-        ordered_components[i]['prob'] = (i + 1.0) ** (-tau)
-        sum_of += ordered_components[i]['prob']
-    return sum_of
-
-
-def make_selection(components, sum_of_probability):
-    selection = random()
-    for i in range(0, len(components)):
-        selection -= components[i]['prob'] / sum_of_probability
-        if selection <= 0.0:
-            return i
-    return len(components) - 1
-
 
 def random_from_range(digits, start, end):
     uniform_random = random()
@@ -57,17 +38,3 @@ def search(function, bounds, max_iterations, eps=0.1, print_progress=False):
         if print_progress:
             print(f"Iteration {i}, current_value={current['value']}, best_value={best['value']}, in={best['input']}")
     return best
-
-
-if __name__ == "__main__":
-    # problem configuration
-    problem_bounds = [[-32, 32] for _ in range(2)]
-
-    # algorithm configuration
-    maximum_iterations = 250
-    tau_parameter = 1.8
-
-    # algorithm execution
-    best_result = search(ackley, problem_bounds, maximum_iterations, print_progress=True)
-    print("Done.")
-    print(f"Best solution: value={best_result['value']}, input={best_result['input']}")

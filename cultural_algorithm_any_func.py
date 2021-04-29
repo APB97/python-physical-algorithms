@@ -74,15 +74,3 @@ def search(objective_function, max_gens, search_space, pop_size, num_accepted, p
             print(f"generation={i}, f={belief_space['situational']['value']}")
 
     return belief_space['situational']
-
-
-if __name__ == "__main__":
-    problem_size = 2
-    problem_bounds = [[-32, 32] for _ in range(problem_size)]
-    # algorithm configuration
-    generations = 200
-    population_size = 100
-    number_accepted = population_size // 5
-    # execution
-    # best_found = search_ackley(generations, problem_bounds, population_size, number_accepted, print_progress=True)
-    # print(f"Done. Solution f={best_found['value']}, input={best_found['input']}")
