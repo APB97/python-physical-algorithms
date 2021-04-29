@@ -28,9 +28,8 @@ def random_from_range(digits, start, end):
     return value_from_range
 
 
-def search_eo_ackley(function, max_iterations, eps=0.1, print_progress=False):
-    bounds = [[-32, 32] for _ in range(2)]
-    current = {'input': [random_from_range(2, bounds[i][0], bounds[i][1]) for i in range(2)]}
+def search(function, bounds, max_iterations, eps=0.1, print_progress=False):
+    current = {'input': [random_from_range(2, bounds[i][0], bounds[i][1]) for i in range(len(bounds))]}
     current['value'] = function(current['input'])
     best = current
 
@@ -38,7 +37,7 @@ def search_eo_ackley(function, max_iterations, eps=0.1, print_progress=False):
 
         candidate = {'input': list.copy(current['input'])}
 
-        fits = [function([candidate['input'][i]]) for i in range(2)]
+        fits = [function([candidate['input'][i]]) for i in range(len(bounds))]
         bestc = fits.index(min(fits))
         worst = fits.index(max(fits))
         distmax = max([abs(x - y) for x in candidate['input'] for y in candidate['input']])
@@ -61,11 +60,14 @@ def search_eo_ackley(function, max_iterations, eps=0.1, print_progress=False):
 
 
 if __name__ == "__main__":
+    # problem configuration
+    problem_bounds = [[-32, 32] for _ in range(2)]
+
     # algorithm configuration
     maximum_iterations = 250
     tau_parameter = 1.8
 
     # algorithm execution
-    best_result = search_eo_ackley(ackley, maximum_iterations, print_progress=True)
+    best_result = search(ackley, problem_bounds, maximum_iterations, print_progress=True)
     print("Done.")
     print(f"Best solution: value={best_result['value']}, input={best_result['input']}")

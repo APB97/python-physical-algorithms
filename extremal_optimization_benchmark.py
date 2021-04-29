@@ -1,11 +1,12 @@
 from math import inf, sqrt
 
-from extremal_optimization_ackley import search_eo_ackley
-from extremal_optimization_bukin_n6 import search_eo_bukin_n6
-from extremal_optimization_rastrigin import search_eo_rastrigin
+from ackley import ackley
+from bukin_n6 import bukin_n6
+from extremal_optimization_any_func import search
+from rastrigin import rastrigin
 
 
-def benchmark_extremal_optimization_ackley(repeat_times=20):
+def benchmark_extremal_optimization(function, bounds, repeat_times=20):
     maximum_iterations = 250
 
     results = []
@@ -13,7 +14,7 @@ def benchmark_extremal_optimization_ackley(repeat_times=20):
     best = {'input': None, 'value': inf}
 
     for i in range(0, repeat_times):
-        result = search_eo_ackley(maximum_iterations, tau=1.8)
+        result = search(function, bounds, maximum_iterations)
         if result['value'] < best['value']:
             best = result
         results.append(result)
@@ -23,61 +24,7 @@ def benchmark_extremal_optimization_ackley(repeat_times=20):
     stddev = sqrt(sum([(v - mean) ** 2 for v in values]) / (repeat_times - 1))
 
     print("Metoda AI: Ekstremalna optymalizacja")
-    print("Funkcja benchmark: Ackley")
-    print(f"Optimum: {best}")
-    print(f"Wyniki ({repeat_times} powtórzeń): ")
-    for result in results:
-        print(result)
-    print(f"Średnia: {mean}")
-    print(f"Odchylenie standardowe: {stddev}")
-
-
-def benchmark_extremal_optimization_bukin(repeat_times=20):
-    maximum_iterations = 250
-
-    results = []
-    values = []
-    best = {'input': None, 'value': inf}
-
-    for i in range(0, repeat_times):
-        result = search_eo_bukin_n6(maximum_iterations, tau=1.8)
-        if result['value'] < best['value']:
-            best = result
-        results.append(result)
-        values.append(result['value'])
-
-    mean = sum(values) / repeat_times
-    stddev = sqrt(sum([(v - mean) ** 2 for v in values]) / (repeat_times - 1))
-
-    print("Metoda AI: Ekstremalna optymalizacja")
-    print("Funkcja benchmark: Bukin no. 6")
-    print(f"Optimum: {best}")
-    print(f"Wyniki ({repeat_times} powtórzeń): ")
-    for result in results:
-        print(result)
-    print(f"Średnia: {mean}")
-    print(f"Odchylenie standardowe: {stddev}")
-
-
-def benchmark_extremal_optimization_rastrigin(repeat_times=20):
-    maximum_iterations = 250
-
-    results = []
-    values = []
-    best = {'input': None, 'value': inf}
-
-    for i in range(0, repeat_times):
-        result = search_eo_rastrigin(maximum_iterations, tau=1.8)
-        if result['value'] < best['value']:
-            best = result
-        results.append(result)
-        values.append(result['value'])
-
-    mean = sum(values) / repeat_times
-    stddev = sqrt(sum([(v - mean) ** 2 for v in values]) / (repeat_times - 1))
-
-    print("Metoda AI: Ekstremalna optymalizacja")
-    print("Funkcja benchmark: Rastrigin")
+    print(f"Funkcja benchmark: {function.__name__}")
     print(f"Optimum: {best}")
     print(f"Wyniki ({repeat_times} powtórzeń): ")
     for result in results:
@@ -87,8 +34,8 @@ def benchmark_extremal_optimization_rastrigin(repeat_times=20):
 
 
 if __name__ == "__main__":
-    benchmark_extremal_optimization_ackley()
+    benchmark_extremal_optimization(ackley, [[-32, 32], [-32, 32]])
     print()
-    benchmark_extremal_optimization_bukin()
+    benchmark_extremal_optimization(bukin_n6, [[-15, -5], [-3, 3]])
     print()
-    benchmark_extremal_optimization_rastrigin()
+    benchmark_extremal_optimization(rastrigin, [[-5.12, 5.12], [-5.12, 5.12]])
