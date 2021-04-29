@@ -1,11 +1,12 @@
 from math import inf, sqrt
 
-from simulated_annealing_ackley import search_ackley
-from simulated_annealing_bukin_n6 import search_bukin
-from simulated_annealing_rastrigin import search_rastrigin
+from ackley import ackley
+from bukin_n6 import bukin_n6
+from rastrigin import rastrigin
+from simulated_annealing_any_func import search
 
 
-def benchmark_simulated_annealing_ackley(repeat_times=20):
+def benchmark_simulated_annealing(function, bounds, repeat_times=20):
     maximum_iterations = 2000
     maximum_temperature = 100000.0
     temperature_change = 0.98
@@ -15,7 +16,7 @@ def benchmark_simulated_annealing_ackley(repeat_times=20):
     best = {'input': None, 'value': inf}
 
     for i in range(0, repeat_times):
-        result = search_ackley(maximum_iterations, maximum_temperature, temperature_change)
+        result = search(function, bounds, maximum_iterations, maximum_temperature, temperature_change)
         if result['value'] < best['value']:
             best = result
         results.append(result)
@@ -25,65 +26,7 @@ def benchmark_simulated_annealing_ackley(repeat_times=20):
     stddev = sqrt(sum([(v - mean) ** 2 for v in values]) / (repeat_times - 1))
 
     print("Metoda AI: Symulowane wyżarzanie")
-    print("Funkcja benchmark: Ackley")
-    print(f"Optimum: {best}")
-    print(f"Wyniki ({repeat_times} powtórzeń): ")
-    for result in results:
-        print(result)
-    print(f"Średnia: {mean}")
-    print(f"Odchylenie standardowe: {stddev}")
-
-
-def benchmark_simulated_annealing_bukin(repeat_times=20):
-    maximum_iterations = 2000
-    maximum_temperature = 100000.0
-    temperature_change = 0.98
-
-    results = []
-    values = []
-    best = {'input': None, 'value': inf}
-
-    for i in range(0, repeat_times):
-        result = search_bukin(maximum_iterations, maximum_temperature, temperature_change)
-        if result['value'] < best['value']:
-            best = result
-        results.append(result)
-        values.append(result['value'])
-
-    mean = sum(values) / repeat_times
-    stddev = sqrt(sum([(v - mean) ** 2 for v in values]) / (repeat_times - 1))
-
-    print("Metoda AI: Symulowane wyżarzanie")
-    print("Funkcja benchmark: Bukin no. 6")
-    print(f"Optimum: {best}")
-    print(f"Wyniki ({repeat_times} powtórzeń): ")
-    for result in results:
-        print(result)
-    print(f"Średnia: {mean}")
-    print(f"Odchylenie standardowe: {stddev}")
-
-
-def benchmark_simulated_annealing_rastrigin(repeat_times=20):
-    maximum_iterations = 2000
-    maximum_temperature = 100000.0
-    temperature_change = 0.98
-
-    results = []
-    values = []
-    best = {'input': None, 'value': inf}
-
-    for i in range(0, repeat_times):
-        result = search_rastrigin(maximum_iterations, maximum_temperature, temperature_change)
-        if result['value'] < best['value']:
-            best = result
-        results.append(result)
-        values.append(result['value'])
-
-    mean = sum(values) / repeat_times
-    stddev = sqrt(sum([(v - mean) ** 2 for v in values]) / (repeat_times - 1))
-
-    print("Metoda AI: Symulowane wyżarzanie")
-    print("Funkcja benchmark: Rastrigin")
+    print(f"Funkcja benchmark: {function.__name__}")
     print(f"Optimum: {best}")
     print(f"Wyniki ({repeat_times} powtórzeń): ")
     for result in results:
@@ -93,8 +36,8 @@ def benchmark_simulated_annealing_rastrigin(repeat_times=20):
 
 
 if __name__ == "__main__":
-    benchmark_simulated_annealing_ackley()
+    benchmark_simulated_annealing(ackley, [[-32, 32], [-32, 32]])
     print()
-    benchmark_simulated_annealing_bukin()
+    benchmark_simulated_annealing(bukin_n6, [[-15, -5], [-3, 3]])
     print()
-    benchmark_simulated_annealing_rastrigin()
+    benchmark_simulated_annealing(rastrigin, [[-5.12, 5.12], [-5.12, 5.12]])
