@@ -4,8 +4,6 @@ from random import random
 
 from numpy.random.mtrand import randn
 
-from ackley import ackley
-
 
 def random_from_range(digits, start, end):
     uniform_random = random()
@@ -23,7 +21,6 @@ def create_next(function, current, delta_step, bounds):
 
 
 def should_accept(candidate: dict, current: dict, temp):
-
     if candidate['value'] <= current['value']:
         return True
     return exp((current['value'] - candidate['value']) / temp) > random()
@@ -47,16 +44,3 @@ def search(function, bounds, max_iterations, max_temperature, temp_change, print
             print(f"iteration {i}, temperature={temperature}, best={best['value']}")
 
     return best
-
-
-if __name__ == "__main__":
-    # algorithm configuration
-    maximum_iterations = 2000
-    maximum_temperature = 100000.0
-    temperature_change = 0.98
-
-    # algorithm execution
-    best_result = search(ackley, [[-32, 32], [-32, 32]],
-                         maximum_iterations, maximum_temperature, temperature_change, print_progress=True)
-    print("Done.")
-    print(f"Best solution: value={best_result['value']}, input={best_result['input']}")
