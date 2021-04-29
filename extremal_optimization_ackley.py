@@ -1,7 +1,18 @@
 # Author of the implementation: Adrian Bieliński
+from math import exp, cos, pi, sqrt, inf, copysign, dist
 from random import random
 
 from ackley import ackley
+
+
+def fitness(comp, best_value):
+    c = [comp]
+    a = abs(ackley(c) - best_value)
+    if a == 0:
+        return inf
+    value = 1.0 / a
+    # value = 1.0 / abs(-20 * exp(-0.2 * sqrt(comp ** 2 / 2)) - exp(cos(2 * pi * comp) / 2) + 20 + exp(1) - best_value)
+    return value
 
 
 def calculate_component_probabilities(ordered_components, tau):
@@ -29,24 +40,25 @@ def random_from_range(digits, start, end):
 
 
 def search_eo_ackley(max_iterations, tau, print_progress=False):
-    lower_limits = [-32, -32]
-    upper_limits = [32, 32]
-
-    current = {'input': [random_from_range(digits=2, start=lower_limits[0], end=upper_limits[0]),
-                         random_from_range(digits=2, start=lower_limits[1], end=upper_limits[1])]}
+    bounds = [[-32, 32] for _ in range(3)]
+    current = {'input': [random_from_range(2, bounds[i][0], bounds[i][1]) for i in range(3)]}
     current['value'] = ackley(current['input'])
     best = current
 
     for i in range(1, max_iterations + 1):
 
-        candidate = {'input': [current['input'][0], current['input'][1]]}
+        candidate = {'input': list.copy(current['input'])}
 
-        components = [{'prob': 0}, {'prob': 0}]
-        prob_sum = calculate_component_probabilities(components, tau)
-        weak_component = make_selection(components, prob_sum)
+        fits = [ackley([candidate['input'][i]]) for i in range(3)]
+        bestc = fits.index(min(fits))
+        worst = fits.index(max(fits))
+        distmax = max([abs(x - y) for x in candidate['input'] for y in candidate['input']])
+        u = random_from_range(2, -1, 1)
+        if distmax == 0:
+            distmax = 1
 
-        candidate['input'][weak_component] = random_from_range(digits=2, start=lower_limits[weak_component],
-                                                               end=upper_limits[weak_component])
+        comp_new = candidate['input'][bestc] + distmax * u
+        candidate['input'][worst] = comp_new
 
         candidate['value'] = ackley(candidate['input'])
         current = candidate
@@ -55,7 +67,7 @@ def search_eo_ackley(max_iterations, tau, print_progress=False):
             best = candidate
 
         if print_progress:
-            print(f"Iteration {i}, current_value={current['value']}, best_value={best['value']}")
+            print(f"Iteration {i}, current_value={current['value']}, best_value={best['value']}, in={best['input']}")
     return best
 
 
