@@ -39,7 +39,7 @@ def random_from_range(digits, start, end):
     return value_from_range
 
 
-def search_eo_ackley(max_iterations, tau, print_progress=False):
+def search_eo_ackley(max_iterations, tau, eps=0.0001, print_progress=False):
     bounds = [[-32, 32] for _ in range(3)]
     current = {'input': [random_from_range(2, bounds[i][0], bounds[i][1]) for i in range(3)]}
     current['value'] = ackley(current['input'])
@@ -54,7 +54,7 @@ def search_eo_ackley(max_iterations, tau, print_progress=False):
         worst = fits.index(max(fits))
         distmax = max([abs(x - y) for x in candidate['input'] for y in candidate['input']])
         u = random_from_range(2, -1, 1)
-        if distmax == 0:
+        if distmax < eps:
             distmax = 1
 
         comp_new = candidate['input'][bestc] + distmax * u
