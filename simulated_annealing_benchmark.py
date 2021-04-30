@@ -1,8 +1,8 @@
 from math import inf, sqrt
 
-from ackley import ackley
-from bukin_n6 import bukin_n6
-from rastrigin import rastrigin
+from benchmark.functions.ackley import ackley
+from benchmark.functions.bukin_n6 import bukin_n6
+from benchmark.functions.rastrigin import rastrigin
 from simulated_annealing_any_func import search
 
 

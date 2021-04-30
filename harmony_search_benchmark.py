@@ -1,9 +1,9 @@
 from math import inf, sqrt
 
-from ackley import ackley
-from bukin_n6 import bukin_n6
+from benchmark.functions.ackley import ackley
+from benchmark.functions.bukin_n6 import bukin_n6
 from harmony_search_any_func import search
-from rastrigin import rastrigin
+from benchmark.functions.rastrigin import rastrigin
 
 
 def benchmark_harmony_search(function, bounds, repeat_times=20):

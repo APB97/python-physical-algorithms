@@ -1,9 +1,9 @@
 from math import inf, sqrt
 
-from ackley import ackley
-from bukin_n6 import bukin_n6
+from benchmark.functions.ackley import ackley
+from benchmark.functions.bukin_n6 import bukin_n6
 from extremal_optimization_any_func import search
-from rastrigin import rastrigin
+from benchmark.functions.rastrigin import rastrigin
 
 
 def benchmark_extremal_optimization(function, bounds, repeat_times=20):
