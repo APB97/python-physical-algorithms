@@ -26,7 +26,7 @@ def should_accept(candidate: dict, current: dict, temp):
     return exp((current['value'] - candidate['value']) / temp) > random()
 
 
-def search(function, bounds, max_iterations, max_temperature, temp_change, print_progress=False):
+def simulated_annealing(function, bounds, max_iterations, max_temperature, temp_change, print_progress=False):
     current = {'input': [random_from_range(2, bounds[i][0], bounds[i][1]) for i in range(len(bounds))]}
     current['value'] = function(current['input'])
     temperature, best = max_temperature, current

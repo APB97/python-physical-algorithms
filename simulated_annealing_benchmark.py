@@ -3,7 +3,7 @@ from math import inf, sqrt
 from benchmark.functions.ackley import ackley
 from benchmark.functions.bukin_n6 import bukin_n6
 from benchmark.functions.rastrigin import rastrigin
-from algorithms.physical.universal.simulated_annealing import search
+from algorithms.physical.universal.simulated_annealing import simulated_annealing
 
 
 def benchmark_simulated_annealing(function, bounds, repeat_times=20):
@@ -16,7 +16,7 @@ def benchmark_simulated_annealing(function, bounds, repeat_times=20):
     best = {'input': None, 'value': inf}
 
     for i in range(0, repeat_times):
-        result = search(function, bounds, maximum_iterations, maximum_temperature, temperature_change)
+        result = simulated_annealing(function, bounds, maximum_iterations, maximum_temperature, temperature_change)
         if result['value'] < best['value']:
             best = result
         results.append(result)
