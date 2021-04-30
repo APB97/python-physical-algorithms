@@ -3,7 +3,7 @@ from math import inf, sqrt
 from benchmark.functions.ackley import ackley
 from benchmark.functions.bukin_n6 import bukin_n6
 from benchmark.functions.rastrigin import rastrigin
-from simulated_annealing_any_func import search
+from algorithms.physical.universal.simulated_annealing_any_func import search
 
 
 def benchmark_simulated_annealing(function, bounds, repeat_times=20):

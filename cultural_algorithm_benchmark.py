@@ -2,7 +2,7 @@ from math import inf, sqrt
 
 from benchmark.functions.ackley import ackley
 from benchmark.functions.bukin_n6 import bukin_n6
-from cultural_algorithm_any_func import search
+from algorithms.physical.universal.cultural_algorithm_any_func import search
 from benchmark.functions.rastrigin import rastrigin
 
 
