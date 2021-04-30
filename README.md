@@ -57,7 +57,7 @@ Instruction for "Universal" variants:
 
 ```python
 from benchmark.functions.ackley import ackley  # benchmark function import
-from algorithms.physical.universal.cultural_algorithm_any_func import search  # algorithm import
+from algorithms.physical.universal.cultural_algorithm import search  # algorithm import
 
 if __name__ == "__main__":
   problem_bounds = [[-32, 32], [-32, 32]]  # problem domain
