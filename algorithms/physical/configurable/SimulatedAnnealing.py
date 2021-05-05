@@ -4,7 +4,6 @@ from typing import List
 
 from numpy.random.mtrand import randn
 
-from algorithms.physical.universal.simulated_annealing import simulated_annealing
 from benchmarking.ConfigurableAlgorithmBase import ConfigurableAlgorithmBase
 from randomization.Random import Random
 from utilities.Bounds import Bounds
@@ -13,7 +12,7 @@ from utilities.Bounds import Bounds
 class SimulatedAnnealing(ConfigurableAlgorithmBase):
 
     def __init__(self, iterations, max_temperature, temperature_change):
-        super().__init__(simulated_annealing)
+        super().__init__(self.__simulated_annealing)
         self.iterations = iterations
         self.max_temperature = max_temperature
         self.temperature_change = temperature_change
