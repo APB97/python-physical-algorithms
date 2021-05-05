@@ -5,12 +5,8 @@ class Bounds:
         self.maximum = maximum
 
     def keep_in_bounds(self, value):
-        return Bounds.keep_in_bounds(value, self.minimum, self.maximum)
-
-    @staticmethod
-    def keep_in_bounds(value, minimum, maximum):
-        if value < minimum:
-            return minimum
-        if value > maximum:
-            return maximum
+        if value < self.minimum:
+            return self.minimum
+        if value > self.maximum:
+            return self.maximum
         return value

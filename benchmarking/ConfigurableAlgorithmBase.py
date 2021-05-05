@@ -10,6 +10,5 @@ class ConfigurableAlgorithmBase(ABC):
         pass
 
     @abstractmethod
-    @property
     def __name__(self):
         pass

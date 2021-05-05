@@ -15,9 +15,8 @@ class Random:
         return random() * (end - start) + start
 
     @staticmethod
-    def vector_in_bounds(bounds: List[Bounds]):
-        return [Random.from_range(b.minimum, b.maximum) for b in bounds]
-
-    @staticmethod
-    def vector_in_bounds(bounds: List[Bounds], digits: int):
-        return [round(v, digits) for v in Random.vector_in_bounds(bounds)]
+    def vector_in_bounds(bounds: List[Bounds], digits: int = None):
+        vector = [Random.from_range(b.minimum, b.maximum) for b in bounds]
+        if digits is not None:
+            return [round(v, digits) for v in vector]
+        return vector
