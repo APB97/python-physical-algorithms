@@ -4,7 +4,7 @@ from randomization.Random import Random
 
 class ExtremalOptimization(ConfigurableAlgorithmBase):
     def __init__(self, max_iterations, eps):
-        super().__init__(self.__extremal_optimization)
+        super().__init__(self.__call__)
         self.eps = eps
         self.max_iterations = max_iterations
 

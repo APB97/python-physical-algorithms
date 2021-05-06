@@ -12,7 +12,7 @@ from utilities.Bounds import Bounds
 class SimulatedAnnealing(ConfigurableAlgorithmBase):
 
     def __init__(self, iterations, max_temperature, temperature_change):
-        super().__init__(self.__simulated_annealing)
+        super().__init__(self.__call__)
         self.iterations = iterations
         self.max_temperature = max_temperature
         self.temperature_change = temperature_change
