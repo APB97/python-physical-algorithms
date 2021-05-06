@@ -22,29 +22,6 @@ class HarmonySearch(ConfigurableAlgorithmBase):
     def __call__(self, function, bounds):
         return self.__harmony_search(function, bounds)
 
-    @staticmethod
-    def __create_random_harmony(function, bounds: List[Bounds]):
-        harmony = {'input': Random.vector_in_bounds(bounds)}
-        harmony['value'] = function(harmony['input'])
-        return harmony
-
-    def __init_memory(self, function, bounds: List[Bounds]):
-        memory = [self.__create_random_harmony(function, bounds) for _ in range(self.memory_size * self.factor)]
-        memory.sort(key=lambda m: m['value'])
-        return memory[0:self.memory_size]
-
-    def __create_harmony(self, bounds: List[Bounds], memory):
-        vector = [i for i in range(len(bounds))]
-        for i in vector:
-            if random() < self.consider_rate:
-                value = memory[randint(0, len(memory) - 1)]['input'][i]
-                if random() < self.adjust_rate:
-                    value = bounds[i].keep_in_bounds(value + self.harmony_range * Random.from_range(-1, 1))
-                vector[i] = value
-            else:
-                vector[i] = Random.from_range(bounds[i].minimum, bounds[i].maximum)
-        return {'input': vector}
-
     def __harmony_search(self, function, bounds: List[Bounds]):
         memory = self.__init_memory(function, bounds)
         best = memory[0]
@@ -58,3 +35,26 @@ class HarmonySearch(ConfigurableAlgorithmBase):
             memory.sort(key=lambda m: m['value'])
             memory.remove(memory[-1])
         return best
+
+    def __init_memory(self, function, bounds: List[Bounds]):
+        memory = [self.__create_random_harmony(function, bounds) for _ in range(self.memory_size * self.factor)]
+        memory.sort(key=lambda m: m['value'])
+        return memory[0:self.memory_size]
+
+    @staticmethod
+    def __create_random_harmony(function, bounds: List[Bounds]):
+        harmony = {'input': Random.vector_in_bounds(bounds)}
+        harmony['value'] = function(harmony['input'])
+        return harmony
+
+    def __create_harmony(self, bounds: List[Bounds], memory):
+        vector = [i for i in range(len(bounds))]
+        for i in vector:
+            if random() < self.consider_rate:
+                value = memory[randint(0, len(memory) - 1)]['input'][i]
+                if random() < self.adjust_rate:
+                    value = bounds[i].keep_in_bounds(value + self.harmony_range * Random.from_range(-1, 1))
+                vector[i] = value
+            else:
+                vector[i] = Random.from_range(bounds[i].minimum, bounds[i].maximum)
+        return {'input': vector}
