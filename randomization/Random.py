@@ -1,4 +1,4 @@
-from random import random
+from random import random, randint
 from typing import List
 
 from utilities.Bounds import Bounds
@@ -19,3 +19,7 @@ class Random:
         if digits is not None:
             return [round(v, digits) for v in vector]
         return vector
+
+    @staticmethod
+    def bits(count: int):
+        return [randint(0, 1) for _ in range(count)]
