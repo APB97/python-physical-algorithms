@@ -5,7 +5,7 @@ from random import random
 from numpy.random.mtrand import randn
 
 
-def random_from_range(digits, start, end):
+def random_from_range(start, end, digits):
     uniform_random = random()
     value_from_range = uniform_random * (end - start) + start
     value_from_range = round(value_from_range, digits)
@@ -26,8 +26,8 @@ def should_accept(candidate: dict, current: dict, temp):
     return exp((current['value'] - candidate['value']) / temp) > random()
 
 
-def search(function, bounds, max_iterations, max_temperature, temp_change, print_progress=False):
-    current = {'input': [random_from_range(2, bounds[i][0], bounds[i][1]) for i in range(len(bounds))]}
+def simulated_annealing(function, bounds, max_iterations, max_temperature, temp_change, print_progress=False):
+    current = {'input': [random_from_range(bounds[i][0], bounds[i][1], 2) for i in range(len(bounds))]}
     current['value'] = function(current['input'])
     temperature, best = max_temperature, current
     for i in range(1, max_iterations + 1):

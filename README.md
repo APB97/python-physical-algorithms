@@ -56,14 +56,13 @@ Instruction for "Universal" variants:
 4. Use the following code for reference
 
 ```python
-from ackley import ackley # benchmark function import
-from cultural_algorithm_any_func import search # algorithm import
-
+from benchmark.functions.ackley import ackley  # benchmark function import
+from algorithms.physical.universal.cultural_algorithm import search  # algorithm import
 
 if __name__ == "__main__":
-    problem_bounds = [[-32, 32],[-32, 32]] # problem domain
-    result = search(ackley, 50, problem_bounds, 100, 20, print_progress=False)
-    print(result)
+  problem_bounds = [[-32, 32], [-32, 32]]  # problem domain
+  result = search(ackley, 50, problem_bounds, 100, 20, print_progress=False)
+  print(result)
 
 ```
 

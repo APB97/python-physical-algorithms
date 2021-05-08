@@ -100,7 +100,7 @@ def search(objective_func, max_gens, search_space, pop_size, p_cross, p_mut, max
 
     pop.sort(key=key)
     gen, best = 0, pop[0]
-    for i in range(1, max_gens):
+    for gen in range(1, max_gens):
         selected = [binary_tournament(pop) for _ in range(pop_size)]
         children = reproduce(selected, pop_size, p_cross, p_mut)
         for c in children:
