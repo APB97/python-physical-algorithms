@@ -41,7 +41,8 @@ class SimulatedAnnealing(ConfigurableAlgorithmBase):
 
     @staticmethod
     def __create_next(current, function, bounds: List[Bounds], step):
-        next_input = [bounds[i].keep_in_bounds(current['input'][i] + step * float(randn(1))) for i in range(len(bounds))]
+        next_input = [bounds[i].keep_in_bounds(current['input'][i] + step * float(randn(1)))
+                      for i in range(len(bounds))]
         next_candidate = {'input': next_input, 'value': function(next_input)}
         return next_candidate
 
